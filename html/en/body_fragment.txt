@@ -1,0 +1,679 @@
+<!-- ═══════════ LANDING PAGE ═══════════ -->
+<div id="landing">
+  <div class="land-bg"></div>
+  <div class="land-pattern"></div>
+  <nav class="land-nav">
+    <div class="logo">
+      <div class="logo-icon">🌾</div>
+      <div class="logo-text">Bukid<span>Connect</span></div>
+    </div>
+    <div class="land-nav-btns" style="align-items:center;gap:10px">
+      <a class="btn btn-outline" href="../tl/index.html" style="font-size:13px;padding:9px 16px;border-radius:8px">Tagalog</a>
+      <button type="button" class="btn btn-outline" onclick="showAuth('login')">Sign In</button>
+      <button type="button" class="btn btn-primary" onclick="showAuth('register')">Get Started</button>
+    </div>
+  </nav>
+  <div class="land-hero">
+    <div class="land-badge">🌿 Philippines' Farmer-to-Buyer Marketplace</div>
+    <h1 class="land-h1">Farm Fresh,<br/><em>Direct to You</em></h1>
+    <p class="land-sub">Bukid Connect bridges smallholder farmers directly with buyers — no middlemen, no markups. Fair prices. Real relationships.</p>
+    <div class="land-ctas">
+      <button type="button" class="btn btn-primary btn-lg" onclick="location.href='../farmer/'">🌾 Join as Farmer</button>
+      <button type="button" class="btn btn-earth btn-lg" onclick="location.href='../buyer/'">🛒 Join as Buyer</button>
+    </div>
+  </div>
+  <div class="land-stats">
+    <div class="stat-card"><div class="stat-num" id="stat-farmers">—</div><div class="stat-label">Farmers registered</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-buyers">—</div><div class="stat-label">Buyers registered</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-listings">—</div><div class="stat-label">Active crop listings</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-revenue">—</div><div class="stat-label">Delivered sales (PHP)</div></div>
+  </div>
+  <p class="land-stats-note" style="text-align:center;font-size:13px;color:rgba(255,255,255,.65);margin-top:12px">Figures update from your database when this page loads.</p>
+</div>
+
+<!-- ═══════════ AUTH PAGE ═══════════ -->
+<div id="auth-page" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-icon" style="background:var(--green-mid);">🌾</div>
+      <div class="logo-text" style="color:var(--green-deep)">Bukid<span style="color:var(--green-mid)">Connect</span></div>
+    </div>
+    <div id="login-form">
+      <div class="auth-title">Welcome back!</div>
+      <div class="auth-sub">Sign in to your account to continue.</div>
+      <div class="form-group">
+        <label class="form-label">Username or Email</label>
+        <input type="text" id="login-user" class="form-input" placeholder="Enter username or email"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="login-pass" class="form-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="doLogin()">Sign In →</button>
+      <div class="auth-toggle"><a href="#" onclick="event.preventDefault();showAuthTab('forgot')" style="cursor:pointer">Forgot password?</a></div>
+      <div class="auth-toggle">Don't have an account? <a href="#" onclick="event.preventDefault();showAuthTab('register')">Register here</a></div>
+      <div class="auth-toggle" style="margin-top:8px"><a href="#" onclick="event.preventDefault();showLanding()" style="color:var(--gray-500)">← Back to Home</a></div>
+    </div>
+    <div id="register-form" style="display:none">
+      <div class="auth-title">Create Account</div>
+      <div class="auth-sub">Join Bukid Connect — it's free for farmers!</div>
+      <div class="form-group">
+        <label class="form-label">I am a…</label>
+        <select id="reg-role" class="form-input">
+          <option value="farmer">🌾 Farmer — I sell crops</option>
+          <option value="buyer">🛒 Buyer — I buy crops</option>
+        </select>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="reg-name" class="form-input" placeholder="Juan dela Cruz"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" id="reg-user" class="form-input" placeholder="juanfarm"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" id="reg-email" class="form-input" placeholder="juan@email.com"/>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="text" id="reg-phone" class="form-input" placeholder="09XX-XXX-XXXX"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password (min. 8 chars)</label>
+          <input type="password" id="reg-pass" class="form-input" placeholder="••••••••"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Address / Location</label>
+        <input type="text" id="reg-addr" class="form-input" placeholder="City, Province"/>
+      </div>
+      <div class="form-group" id="reg-farm-wrap" style="display:none">
+        <label class="form-label">Farm name</label>
+        <input type="text" id="reg-farm" class="form-input" placeholder="Your farm or cooperative name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Province (optional)</label>
+        <input type="text" id="reg-province" class="form-input" placeholder="e.g. Laguna"/>
+      </div>
+      <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="doRegister()">Create Account →</button>
+      <div class="auth-toggle">Already have an account? <a onclick="showAuthTab('login')">Sign in</a></div>
+      <div class="auth-toggle" style="margin-top:8px"><a href="#" onclick="event.preventDefault();showLanding()" style="color:var(--gray-500)">← Back to Home</a></div>
+    </div>
+    <div id="otp-form" style="display:none">
+      <div class="auth-title">Verify your email</div>
+      <div class="auth-sub">Enter the 6-digit code sent to your Gmail. <span id="otp-email-hint"></span></div>
+      <input type="hidden" id="otp-email"/>
+      <div class="form-group">
+        <label class="form-label">6-digit OTP</label>
+        <input type="text" id="otp-code" class="form-input" placeholder="000000" maxlength="8" inputmode="numeric"/>
+      </div>
+      <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="doVerifyOtp()">Verify &amp; continue →</button>
+      <div class="auth-toggle"><a href="#" onclick="event.preventDefault();doResendOtp()">Resend code</a></div>
+      <div class="auth-toggle" style="margin-top:8px"><a href="#" onclick="event.preventDefault();showAuthTab('login')" style="color:var(--gray-500)">← Back to sign in</a></div>
+    </div>
+    <div id="forgot-password-form" style="display:none">
+      <div class="auth-title">Reset password</div>
+      <div class="auth-sub" id="forgot-step-label">We’ll email you a one-time code.</div>
+      <div id="forgot-step-email">
+        <div class="form-group">
+          <label class="form-label">Account email</label>
+          <input type="email" id="forgot-email" class="form-input" placeholder="you@email.com"/>
+        </div>
+        <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="doForgotRequest()">Send reset code →</button>
+      </div>
+      <div id="forgot-step-code" style="display:none">
+        <input type="hidden" id="forgot-email-held"/>
+        <div class="form-group">
+          <label class="form-label">6-digit code</label>
+          <input type="text" id="forgot-code" class="form-input" maxlength="8" inputmode="numeric" placeholder="000000"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">New password (min. 8)</label>
+          <input type="password" id="forgot-newpass" class="form-input" placeholder="••••••••"/>
+        </div>
+        <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="doForgotReset()">Update password →</button>
+      </div>
+      <div class="auth-toggle" style="margin-top:12px"><a href="#" onclick="event.preventDefault();showAuthTab('login')" style="color:var(--gray-500)">← Back to sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ APP SHELL ═══════════ -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo">
+        <div class="logo-icon" style="width:36px;height:36px;font-size:18px">🌾</div>
+        <div class="logo-text" style="font-size:17px">Bukid<span>Connect</span></div>
+      </div>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name" id="sb-name">Loading...</div>
+      <div class="sidebar-user-role" id="sb-role">—</div>
+      <div class="role-badge" id="sb-badge">—</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebar-nav"></nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" onclick="doLogout()">
+        <span class="nav-icon">🚪</span> Sign Out
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="alert-bell" onclick="showPage('notifications')" title="Notifications">
+          🔔<div class="alert-dot" id="notif-dot" style="display:none"></div>
+        </div>
+        <span style="font-size:13px;color:var(--gray-500)" id="topbar-user">—</span>
+      </div>
+    </header>
+    <div class="content">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="page" id="page-dashboard">
+        <div class="section-header">
+          <div><div class="section-title" id="dash-greeting">Good morning! 👋</div>
+          <div class="section-sub">Here's what's happening on Bukid Connect today.</div></div>
+        </div>
+        <div class="stat-grid" id="dash-stats"></div>
+        <div id="dash-buyer-rec" class="card" style="display:none;margin-bottom:20px">
+          <div class="card-header"><div class="card-title">🌱 Recommended for you</div></div>
+          <div class="card-body" id="dash-rec-list"><p style="color:var(--gray-500);font-size:14px">Loading picks…</p></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div class="card">
+            <div class="card-header"><div class="card-title">🔔 Latest Alerts</div></div>
+            <div class="card-body" id="dash-alerts-list"><div class="empty-state"><div class="empty-icon">🔔</div><p>No alerts yet.</p></div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">📦 Recent Orders</div></div>
+            <div class="card-body" id="dash-orders-list"><div class="empty-state"><div class="empty-icon">📦</div><p>No orders yet.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MARKETPLACE (buyer view) ── -->
+      <div class="page" id="page-marketplace">
+        <div class="section-header">
+          <div><div class="section-title">🛒 Marketplace</div><div class="section-sub">Fresh crops direct from verified farmers.</div></div>
+        </div>
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search crops, location…" id="crop-search" oninput="filterCrops()"/>
+          <select id="crop-cat" class="form-input" style="width:180px;margin:0" onchange="filterCrops()">
+            <option value="">Loading categories…</option>
+          </select>
+        </div>
+        <div class="crop-grid" id="marketplace-grid"><div class="empty-state"><div class="empty-icon">🌾</div><p>Loading crops…</p></div></div>
+      </div>
+
+      <!-- ── MY CROPS (farmer) ── -->
+      <div class="page" id="page-my-crops">
+        <div class="section-header">
+          <div><div class="section-title">🌿 My Crop Listings</div><div class="section-sub">Manage what you sell on the marketplace.</div></div>
+          <button type="button" class="btn btn-primary" onclick="openModal('modal-add-crop')">+ Add Crop</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Crop</th><th>Category</th><th>Price/Unit</th><th>Qty Available</th><th>Harvest Date</th><th>Status</th><th>Orders</th><th>Actions</th></tr></thead>
+                <tbody id="my-crops-table"><tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:40px">Loading…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ORDERS ── -->
+      <div class="page" id="page-orders">
+        <div class="section-header">
+          <div><div class="section-title">📦 Orders</div><div class="section-sub" id="orders-sub">Track all your orders.</div></div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Order #</th><th>Crop</th><th id="orders-col1">Farmer</th><th>Qty</th><th>Total</th><th>Type</th><th>Delivery</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                <tbody id="orders-table"><tr><td colspan="10" style="text-align:center;color:var(--gray-500);padding:40px">Loading…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VISITS ── -->
+      <div class="page" id="page-visits">
+        <div class="section-header">
+          <div><div class="section-title">📅 Farm Visits</div><div class="section-sub">Schedule and manage farm visit appointments.</div></div>
+          <button type="button" class="btn btn-primary" id="btn-schedule-visit" onclick="openModal('modal-schedule-visit')" style="display:none">+ Schedule Visit</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+          <div class="card">
+            <div class="card-header"><div class="card-title">🗓 Visit Scheduling Flow</div></div>
+            <div class="card-body">
+              <div class="flow-steps">
+                <div class="flow-step"><div class="flow-num">1</div><div class="flow-text">Buyer opens Farmer Profile → taps 'Schedule a Visit'</div></div>
+                <div class="flow-step"><div class="flow-num">2</div><div class="flow-text">Buyer selects date/time slot from farmer's available calendar</div></div>
+                <div class="flow-step"><div class="flow-num">3</div><div class="flow-text">Buyer adds visit purpose (quality check, bulk deal, etc.)</div></div>
+                <div class="flow-step"><div class="flow-num">4</div><div class="flow-text">Farmer receives request → Approve / Decline / Reschedule</div></div>
+                <div class="flow-step"><div class="flow-num">5</div><div class="flow-text">System sends confirmation to buyer & blocks the time slot</div></div>
+                <div class="flow-step"><div class="flow-num">6</div><div class="flow-text">Auto-reminders sent to BOTH at 24 hours & 1 hour before</div></div>
+                <div class="flow-step"><div class="flow-num">7</div><div class="flow-text">After visit: Buyer submits rating & review on farmer profile</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">📋 My Visit Appointments</div></div>
+            <div class="card-body" id="visits-list"><div class="empty-state"><div class="empty-icon">📅</div><p>No visits scheduled yet.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MESSAGES ── -->
+      <div class="page" id="page-messages">
+        <div class="section-header">
+          <div><div class="section-title">💬 Messages</div><div class="section-sub">Direct chat with farmers and buyers.</div></div>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="chat-wrap">
+            <div class="chat-list" id="chat-list"><div style="padding:16px;font-size:12px;color:var(--gray-500)">No conversations yet.</div></div>
+            <div class="chat-main">
+              <div class="chat-messages" id="chat-messages"><div class="empty-state"><div class="empty-icon">💬</div><p>Select a conversation or start a new one.</p></div></div>
+              <div class="chat-input" id="chat-input-area" style="display:none">
+                <input type="text" id="chat-text" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendMessage()"/>
+                <button type="button" class="btn btn-primary btn-sm" onclick="sendMessage()">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ALERTS ── -->
+      <div class="page" id="page-alerts">
+        <div class="section-header">
+          <div><div class="section-title">🔔 Broadcasts & Alerts</div><div class="section-sub">Weather, pest, and market updates from admins.</div></div>
+          <button type="button" class="btn btn-primary" id="btn-post-alert" onclick="openModal('modal-post-alert')" style="display:none">+ Post Alert</button>
+        </div>
+        <div id="alerts-list"><div class="empty-state"><div class="empty-icon">🔔</div><p>No alerts posted yet.</p></div></div>
+      </div>
+
+      <!-- ── ADMIN: USERS ── -->
+      <div class="page" id="page-admin-users">
+        <div class="section-header">
+          <div><div class="section-title">👥 User Management</div><div class="section-sub">Manage all farmer and buyer accounts.</div></div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>Name</th><th>Username</th><th>Email</th><th>Role</th><th>Verified</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+                <tbody id="admin-users-table"><tr><td colspan="9" style="text-align:center;color:var(--gray-500);padding:40px">Loading…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADMIN: ALL ORDERS ── -->
+      <div class="page" id="page-admin-orders">
+        <div class="section-header">
+          <div><div class="section-title">📦 All Transactions</div><div class="section-sub">Monitor all marketplace orders.</div></div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>#</th><th>Crop</th><th>Farmer</th><th>Buyer</th><th>Qty</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody id="admin-orders-table"><tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:40px">Loading…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADMIN: PLATFORM ANALYTICS ── -->
+      <div class="page" id="page-admin-analytics">
+        <div class="section-header">
+          <div><div class="section-title">📊 Platform analytics</div><div class="section-sub">KPIs, order mix, and category performance (admin).</div></div>
+        </div>
+        <div class="stat-grid" id="admin-analytics-stats"></div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-header"><div class="card-title">Orders by status</div></div>
+          <div class="card-body" id="admin-analytics-status"></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-header"><div class="card-title">Last 12 months</div></div>
+          <div class="card-body" id="admin-analytics-months"></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-header"><div class="card-title">Top categories (by delivered revenue)</div></div>
+          <div class="card-body" id="admin-analytics-cats"></div>
+        </div>
+      </div>
+
+      <!-- ── ADMIN: REPORTS (CSV) ── -->
+      <div class="page" id="page-admin-reports">
+        <div class="section-header">
+          <div><div class="section-title">📄 Reports &amp; export</div><div class="section-sub">Download CSV datasets for documentation or analysis.</div></div>
+        </div>
+        <div class="card">
+          <div class="card-body" id="admin-reports-body"></div>
+        </div>
+      </div>
+
+      <!-- ── NOTIFICATIONS ── -->
+      <div class="page" id="page-notifications">
+        <div class="section-header">
+          <div><div class="section-title">🔔 Notifications</div><div class="section-sub">Orders, visits, messages, and system alerts.</div></div>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="markAllNotifRead()">Mark all read</button>
+        </div>
+        <div class="card"><div class="card-body" id="notifications-list"><div class="empty-state"><p>Loading…</p></div></div></div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div class="page" id="page-settings">
+        <div class="section-header">
+          <div><div class="section-title">⚙️ Profile &amp; Security</div><div class="section-sub">Update your account and password.</div></div>
+        </div>
+        <div class="card" style="max-width:640px">
+          <div class="card-header"><div class="card-title">Profile</div></div>
+          <div class="card-body">
+            <div class="form-group"><label class="form-label">Full name</label><input type="text" id="set-name" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="text" id="set-phone" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">Address</label><input type="text" id="set-addr" class="form-input"/></div>
+            <div class="form-group" id="set-farm-group" style="display:none"><label class="form-label">Farm name</label><input type="text" id="set-farm" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">Province</label><input type="text" id="set-province" class="form-input"/></div>
+            <button type="button" class="btn btn-primary" onclick="saveProfile()">Save profile</button>
+          </div>
+        </div>
+        <div class="card" style="max-width:640px;margin-top:20px">
+          <div class="card-header"><div class="card-title">Change password</div></div>
+          <div class="card-body">
+            <div class="form-group"><label class="form-label">Current password</label><input type="password" id="set-pass-old" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">New password</label><input type="password" id="set-pass-new" class="form-input"/></div>
+            <button type="button" class="btn btn-earth" onclick="changePassword()">Update password</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FARMER ANALYTICS ── -->
+      <div class="page" id="page-analytics">
+        <div class="section-header">
+          <div><div class="section-title">📊 Earnings &amp; Analytics</div><div class="section-sub">Delivered sales and crop performance.</div></div>
+        </div>
+        <div class="stat-grid" id="analytics-stats"></div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-header"><div class="card-title">Orders by status</div></div>
+          <div class="card-body" id="analytics-chart"></div>
+        </div>
+        <div class="card"><div class="card-header"><div class="card-title">Top delivered crops</div></div><div class="card-body" id="analytics-top"></div></div>
+      </div>
+
+      <!-- ── FAVORITES (buyer) ── -->
+      <div class="page" id="page-favorites">
+        <div class="section-header">
+          <div><div class="section-title">⭐ Favorite farmers</div><div class="section-sub">Quick access to trusted producers.</div></div>
+        </div>
+        <div class="crop-grid" id="favorites-grid"></div>
+      </div>
+
+      <!-- ── TRANSACTION HISTORY ── -->
+      <div class="page" id="page-transactions">
+        <div class="section-header">
+          <div><div class="section-title">💳 Transaction history</div><div class="section-sub">Completed marketplace settlements.</div></div>
+        </div>
+        <div class="card"><div class="card-body"><div class="table-wrap"><table><thead><tr><th>Order</th><th>Crop</th><th>Amount</th><th>Date</th></tr></thead><tbody id="txn-table"></tbody></table></div></div></div>
+      </div>
+
+      <!-- ── ADMIN: CROP MONITORING ── -->
+      <div class="page" id="page-admin-crops">
+        <div class="section-header">
+          <div><div class="section-title">🌿 Crop listings</div><div class="section-sub">Moderate marketplace listings.</div></div>
+        </div>
+        <div class="card"><div class="card-body"><div class="table-wrap"><table><thead><tr><th>ID</th><th>Crop</th><th>Farmer</th><th>Qty</th><th>Status</th><th>Actions</th></tr></thead><tbody id="admin-crops-table"></tbody></table></div></div></div>
+      </div>
+
+      <!-- ── ADMIN: AUDIT & EVENTS ── -->
+      <div class="page" id="page-admin-audit">
+        <div class="section-header">
+          <div><div class="section-title">📜 Audit logs</div><div class="section-sub">Security and administrative actions.</div></div>
+        </div>
+        <div class="card"><div class="card-body"><div class="table-wrap"><table><thead><tr><th>When</th><th>User</th><th>Action</th><th>Details</th><th>IP</th></tr></thead><tbody id="audit-table"></tbody></table></div></div></div>
+      </div>
+      <div class="page" id="page-admin-events">
+        <div class="section-header">
+          <div><div class="section-title">⚡ Event log</div><div class="section-sub">Event-driven marketplace trail.</div></div>
+        </div>
+        <div class="card"><div class="card-body"><div class="table-wrap"><table><thead><tr><th>When</th><th>Event</th><th>Actor</th><th>Entity</th><th>Payload</th></tr></thead><tbody id="events-table"></tbody></table></div></div></div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="modal-order">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🛒 Place Order</div>
+      <div class="modal-close" onclick="closeModal('modal-order')">✕</div>
+    </div>
+    <div id="order-crop-info" style="background:var(--green-light);border-radius:10px;padding:16px;margin-bottom:20px"></div>
+    <div class="form-group">
+      <label class="form-label">Quantity</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="number" id="order-qty" class="form-input" placeholder="e.g. 10" min="0.5" step="0.5"/>
+        <span id="order-unit" style="font-size:14px;color:var(--gray-500);white-space:nowrap"></span>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Order Type</label>
+        <select id="order-type" class="form-input">
+          <option value="instant">Instant Order</option>
+          <option value="pre-order">Pre-Order (Advance)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Delivery Method</label>
+        <select id="order-delivery" class="form-input">
+          <option value="pickup">Pickup at Farm</option>
+          <option value="delivery">Delivery to Me</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" id="delivery-addr-wrap" style="display:none">
+      <label class="form-label">Delivery Address</label>
+      <input type="text" id="order-delivery-addr" class="form-input" placeholder="Street, Barangay, City"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes (optional)</label>
+      <textarea id="order-notes" class="form-input" placeholder="Special requests, preferred variety…"></textarea>
+    </div>
+    <div id="order-total-preview" style="font-size:18px;font-weight:700;color:var(--green-mid);margin-bottom:16px"></div>
+    <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="submitOrder()">Confirm Order →</button>
+  </div>
+</div>
+
+<!-- ADD CROP MODAL -->
+<div class="modal-overlay" id="modal-add-crop">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <div class="modal-title">🌿 Add Crop Listing</div>
+      <div class="modal-close" onclick="closeModal('modal-add-crop')">✕</div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Crop Name *</label>
+        <input type="text" id="c-name" class="form-input" placeholder="e.g. Ampalaya"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select id="c-cat" class="form-input">
+          <option value="">Loading…</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea id="c-desc" class="form-input" placeholder="Describe the crop, variety, growing method…"></textarea>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Price per Unit (₱) *</label>
+        <input type="number" id="c-price" class="form-input" placeholder="50" min="0" step="0.01"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unit</label>
+        <select id="c-unit" class="form-input">
+          <option value="">Loading units…</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Quantity Available *</label>
+        <input type="number" id="c-qty" class="form-input" placeholder="100" min="0" step="0.5"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Expected Harvest Date</label>
+        <input type="date" id="c-harvest" class="form-input"/>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Farm Location</label>
+        <input type="text" id="c-location" class="form-input" placeholder="e.g. Cavite, Calabarzon"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Listing Status</label>
+        <select id="c-status" class="form-input">
+          <option value="available">Available Now</option>
+          <option value="pre-order">Pre-Order Only</option>
+        </select>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="submitAddCrop()">List Crop →</button>
+  </div>
+</div>
+
+<!-- SCHEDULE VISIT MODAL -->
+<div class="modal-overlay" id="modal-schedule-visit">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📅 Schedule Farm Visit</div>
+      <div class="modal-close" onclick="closeModal('modal-schedule-visit')">✕</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Farmer ID</label>
+      <input type="number" id="visit-farmer-id" class="form-input" placeholder="Enter farmer's user ID"/>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Visit Date *</label>
+        <input type="date" id="visit-date" class="form-input"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Visit Time *</label>
+        <input type="time" id="visit-time" class="form-input"/>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Purpose</label>
+        <select id="visit-purpose" class="form-input">
+          <option value="Quality check">Quality Check</option>
+          <option value="Bulk deal negotiation">Bulk Deal Negotiation</option>
+          <option value="Farm tour">Farm Tour</option>
+          <option value="Contract discussion">Contract Discussion</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Group Size</label>
+        <input type="number" id="visit-group" class="form-input" value="1" min="1" max="20"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Additional Notes</label>
+      <textarea id="visit-notes" class="form-input" placeholder="Any specific requests or information…"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="submitVisit()">Send Visit Request →</button>
+  </div>
+</div>
+
+<!-- POST ALERT MODAL -->
+<div class="modal-overlay" id="modal-post-alert">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📢 Broadcast Alert</div>
+      <div class="modal-close" onclick="closeModal('modal-post-alert')">✕</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Alert Type</label>
+      <select id="alert-type" class="form-input">
+        <option value="weather">🌧 Weather Warning</option>
+        <option value="pest">🐛 Pest Alert</option>
+        <option value="market">📈 Market Update</option>
+        <option value="general">📢 General Announcement</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Title *</label>
+      <input type="text" id="alert-title" class="form-input" placeholder="e.g. Typhoon Warning: Cavite Province"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message *</label>
+      <textarea id="alert-message" class="form-input" style="min-height:120px" placeholder="Detailed information about the alert…"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Target province (optional)</label>
+      <input type="text" id="alert-province" class="form-input" placeholder="Leave blank for nationwide — e.g. Laguna, Benguet"/>
+    </div>
+    <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="submitAlert()">Broadcast Alert 📡</button>
+  </div>
+</div>
+
+<!-- RATE MODAL -->
+<div class="modal-overlay" id="modal-rate">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">⭐ Rate this Farmer</div>
+      <div class="modal-close" onclick="closeModal('modal-rate')">✕</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Rating</label>
+      <div class="star-input" id="star-input">
+        <button type="button" onclick="setRating(1)">★</button>
+        <button type="button" onclick="setRating(2)">★</button>
+        <button type="button" onclick="setRating(3)">★</button>
+        <button type="button" onclick="setRating(4)">★</button>
+        <button type="button" onclick="setRating(5)">★</button>
+      </div>
+    </div>
+    <input type="hidden" id="rate-farmer-id"/>
+    <input type="hidden" id="rate-order-id"/>
+    <input type="hidden" id="rate-value" value="0"/>
+    <div class="form-group">
+      <label class="form-label">Review</label>
+      <textarea id="rate-review" class="form-input" placeholder="Share your experience with this farmer…"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="submitRating()">Submit Rating →</button>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>

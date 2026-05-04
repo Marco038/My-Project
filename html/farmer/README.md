@@ -1,0 +1,1 @@
+Reserved for **farmer-specific HTML partials** (optional future split). The live UI is in `../en/index.html`; farmer screens are identified by `id="page-*"` and driven from `../../js/farmer/farmer-pages.js`.
